@@ -74,7 +74,6 @@ SETTINGS = (
     input_with_default("ADMIN_USERNAME", "Admin username", "admin"),
     input_password("ADMIN_PASSWORD", "Admin password", "password"),
     input_with_default("ANALYTICS_ID", "Google analytics ID", ""),
-    input_with_default("SQLALCHEMY_DATABASE_URI", "Database URI", "sqlite:///simple.db"),
     input_with_default("GITHUB_USERNAME", "Github Username", ""),
     input_with_default("CONTACT_EMAIL", "Contact Email", ""),
     input_with_default("BLOG_TITLE", "Blog title", ""),

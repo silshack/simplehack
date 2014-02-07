@@ -30,6 +30,7 @@ except ImportError:
 
 app = Flask(__name__)
 app.config.from_object('settings')
+app.config.from_object('db')
 app.secret_key = app.config["SECRET_KEY"]
 tmpdb = app.config['DATABASE_URI']
 #print os.environ[tmpdb]
@@ -38,7 +39,7 @@ UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['USE_FAVICON'] =  os.path.exists(os.path.join(app.static_folder, "favicon.ico"))
-#app.debug = True
+app.debug = True
 
 db = SQLAlchemy(app)
 cache_directory = os.path.dirname(__file__)
