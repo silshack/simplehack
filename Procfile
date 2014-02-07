@@ -1,1 +1,1 @@
-web: python simple-debug.py
+web: python simple.py
