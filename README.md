@@ -1,6 +1,8 @@
 Simplehack
 ================
-A teaching application built on Simple, a clone of [Obtvse](http://github.com/NateW/obtvse).  Wired for teaching by [gerbal](http://github.com/gerbal) and [eah13](http://github.com/eah13).
+A teaching application built on [Simple](https://github.com/orf/simple), a clone of [Obtvse](http://github.com/NateW/obtvse).  Wired for teaching by [gerbal](http://github.com/gerbal) and [eah13](http://github.com/eah13).
+
+The License is NSFW but there is no doubt that you can do whatever you want to with this code.
 
 
 ## Help students deploy a web app in under an hour
