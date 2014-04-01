@@ -1,47 +1,145 @@
-Simple
+Simplehack
 ================
-A clone of [Obtvse](http://github.com/NateW/obtvse).
+A teaching application built on Simple, a clone of [Obtvse](http://github.com/NateW/obtvse).  Wired for teaching by [gerbal](http://github.com/gerbal) and [eah13](http://github.com/eah13).
 
-About
-============
-The point of Simple is to be simple. The blog is 1 file (excluding resources) with a few simple pure-python dependancies (Flask, Sqlalchemy, Markdown), it doesn't require a database server, has a small footprint and is very fast (Can easily handle 300+ requests per second).
 
-Features
-============
-* Markdown goodness, no clutter or fuss when writing your posts
-* Lightweight and simple
-* Supports Disqus comments, Google Analytics and custom fonts (from google's font library)
-* Drag and drop uploads
-* Includes several Markdown extensions:
-    * [CodeHilight](http://pythonhosted.org/Markdown/extensions/code_hilite.html)
-    * [Fenced Code Blocks](http://pythonhosted.org/Markdown/extensions/fenced_code_blocks.html)
-    * [Table of contents](http://pythonhosted.org/Markdown/extensions/toc.html)
+## Help students deploy a web app in under an hour
+This repo is designed to be the simplest introduction to web programming around.  The goal is to get students with basic Python knowledge up and deployed in under an hour.  Then, it's up to you as the instructor to explain what's happened :)
 
-Installation
-============
-Its quite simple. Go download Python 2.7+, clone this repository and then run 'pip install -r requirements.txt'.
-Then create a settings file by running create_config.py and then run simple.py. If you want to add a favicon to your blog then drop one (make sure its called 'favicon.ico') in the static folder and restart simple.
+Prerequisites:
 
-### Updating
-Updates to simple may add, remove or alter settings. Simple ships with a script called create_config.py which can update settings files with changes.
-To do this run "create_config.py" again and you will only be prompted for settings that are not present in the existing settings.py file.
+* Students with basic command line and python knowledge (really the ability to follow command line instructions is all that matters)
+* git 
+* The Heroku toolbelt installed. (`pip install heroku`)
+* Everyone signed up for free [Nitrous.io](http://nitrous.io) accounts.  A suitable web development environment will work great as well; just remove/alter the Nitrous references below and the `--user` from the `pip install` statements.
 
-Deployment
-============
-Deploying Simple is easy. Simply clone this repo (or your own) and install [Gunicorn](http://gunicorn.org/).
-Then cd to the directory containing simple.py and run the following command:
-``gunicorn -w 4 simple:app``
-This will start 4 gunicorn workers serving Simple. You can then use nginx or apache to forward requests to Gunicorn.
+## Student instructions
+(You can deploy an instance of this app and paste these instructions into the first post if you like.  They might need a little cleanup since they were first written for my UNC class)
 
-Example
-============
-You can see my blog running this software [here](http://tomforb.es/simple).
+[TOC]
 
-Screenshots
-===========
-![Admin](http://i.imgur.com/M4i0ahm.png)
+## A Heroku app 
 
-![Draft](http://i.imgur.com/KkGtlTx.png)
+To host our site so other can see it we are going to use [Heroku](http://heroku.com), a really cool Platform as a Service that lets us test and host all kinds of web apps for free. 
+
+Go to [Heroku](https://id.heroku.com/signup/www-header) and [sign up for an account](https://id.heroku.com/signup/www-header). Confirm your account and sign in.
+
+A free account is more than good enough for our purposes.
+
+Create a new app  
+
+![heroku new app](http://i.imgur.com/IU9gEFV.png)
+
+Name it something you can remember, preferably **SILSHACK-_GITHUBNAME_**
+
+
+## Simple in Nitrous.io  
+
+To getting the blog up and running. In the Nitrous terminal (or the Nitrous IDE console):
+
+```bash
+$ git clone https://github.com/silshack/simplehack.git #get the simple blog
+$ cd simplehack
+$ pip install --user -r requirements.txt #install all of our required libraries, this may produce errors. Don’t worry.
+$ python create_config.py --fresh # configure your blog - you can presse 'enter' to accept the defaults
+```  
+This has created a new file, which we'll need to commit.  Heroku can't see anything unless it's committed.
+```bash
+$ git status     # view the changes
+$ git add .      # add them
+$ git status     # see them added
+$ git commit -m "Created Config" 
+```
+
+Here's an Asciicast of this on a demo Nitrous box:
+
+<script type="text/javascript" src="https://asciinema.org/a/7804.js" id="asciicast-7804" async></script>
+
+
+## Simple and a Database on Heroku 
+
+Now we want to get our  Simple site up on Heroku.
+
+Back in Nitrous.io, in your _simplehack/_ directory do the following  
+Don't copy and paste these commands, because you'll have to customize some of them.
+
+```bash  
+$ heroku login
+$ heroku keys:add
+$ git remote add heroku git@heroku.com:(appname).git   # replace (appname) with your heroku name above.
+```
+
+### Databasin
+
+Next we need to create a Database for our site. We can do this by running the following commands:
+
+```bash
+$ heroku addons:add heroku-postgresql
+```
+
+Now we need to tell Simple that the database we just made exists. We can do this running a script included in SimpleHack
+
+```bash
+$ ./setupenv1.sh
+$ source ~/.bashrc
+$ ./setupenv2.sh
+```
+
+Then run
+
+```bash
+$ git add .
+$ git commit -m "SimpleHack should be up and working now" 
+$ git push heroku master
+```
+
+Now go to **http://_appname_.herokuapp.com** and see your working blog in action.
+
+Here's and Asciicast of this section:
+
+<script type="text/javascript" src="https://asciinema.org/a/7805.js" id="asciicast-7805" async></script>
+
+
+## Trouble?
+
+An earlier version of the script was broken.  If you're having trouble, do this:
+
+To get the most recent script, run 
+
+```bash
+$ git pull origin master
+```
+
+Then, run the script a second time:
+
+```bash
+$ ./setupenv1.sh
+$ source ~/.bashrc
+$ ./setupenv2.sh
+```
+
+This has modified some stuff, which we'll need to commit and push.
+```bash
+$ git status     # view the changes
+$ git add .      # add them
+$ git status     # see them added
+$ git commit -m "SimpleHack should be up and working now" 
+$ git push heroku master
+```
+
+Thanks to Katie for noticing the lack of commits at the end.
+
+If the above doesn't work for you (it has for many), delete **both your simplehack folder and your Heroku app** and start over from scratch.  The videos above should help.
+
+## What's Next?
+
+Now, it's up to you. Go look at **_simple.py_**. That is the entire application running your blog. Break it, experiment with it, do something completely different.
+
+Simple is built with [Flask](http://flask.pocoo.org/) A really cool and really simple Python Web Framework. 
+
+You can log in as an admin and make posts by going to http://your-app-url.com/admin and typing in the user name and password you specified.  The default is 'admin' and 'password'.
+
+Here's a video demonstrating that: [http://recordit.co/rcmhNB](http://recordit.co/rcmhNB)
 
 ![Live](http://i.imgur.com/tsiSsED.png)
 
